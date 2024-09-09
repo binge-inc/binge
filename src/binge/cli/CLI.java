@@ -138,7 +138,7 @@ public class CLI {
 
     /**
      * Returns the seriesId from args.
-     * The seriesId must be the only argument that does not contain the equals character ("=").
+     * The seriesId must be the only argument that does not start with "--" and does not contain the equals character ("=").
      * If no seriesId is found the function returns null.
      *
      * @param args the program arguments created by main(String[]).
@@ -146,7 +146,7 @@ public class CLI {
      */
     public static String getSeriesId(final String[] args) {
         for (final String s : args) {
-            if (!s.contains("=")) return s;
+            if (!s.startsWith("--") && !s.contains("=")) return s;
         }
         return null;
     }

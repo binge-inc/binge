@@ -13,10 +13,15 @@ public class Main {
                 System.out.println("binge " + Build.getFullVersionString());
             } else if (StringFunctions.arrayContainsIgnoreCase(CLI.HELP_CODES, args[0])) {
                 BingeHelp.printHelpText();
-            } else if (args[0].equalsIgnoreCase("download")) {
-                BingeDownload.bingeDownload(args);
+            } else if (args[0].equalsIgnoreCase("browse")) {
+                BingeBrowse bb = new BingeBrowse(args);
+                bb.bingeBrowse();
+            }  else if (args[0].equalsIgnoreCase("download")) {
+                BingeDownload bd = new BingeDownload(args);
+                bd.bingeDownload();
             } else if (args[0].equalsIgnoreCase("find")) {
-                BingeFind.bingeFind(args);
+                BingeFind bf = new BingeFind(args);
+                bf.bingeFind();
             } else if (args[0].equalsIgnoreCase("watch")) {
                 BingeWatch bw = new BingeWatch(args);
                 bw.bingeWatch();

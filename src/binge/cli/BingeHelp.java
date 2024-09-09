@@ -8,8 +8,9 @@ public class BingeHelp {
                 "\n" +
                 "For help on a specific command try \"binge COMMAND --help\"\n" +
                 "\n" +
+                "binge browse   - Browses the series list\n" +
+                "binge download - Downloads a series\n" +
                 "binge find     - Finds the seriesId of a specified series\n" +
-                "binge watch    - Watch a series\n" +
-                "binge download - Download a series");
+                "binge watch    - Plays a series");
     }
 }
