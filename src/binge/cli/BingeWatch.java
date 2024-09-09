@@ -78,6 +78,7 @@ public class BingeWatch {
                 if (showTitle == null || showTitle.isEmpty()) {
                     showTitle = episode.getAlt();
                 }
+                // ToDo: Implement version and hoster prioritization
                 if (isMovieSeason(season)) {
                     System.out.println(sanitizeSeasonId(season.getSeasonId()) + " " + (j + 1) + ": " + showTitle + ": " + watchProtocol + "://" + ip + episode.getVersions()[0].getStreams()[0].getPath());
                 } else {
