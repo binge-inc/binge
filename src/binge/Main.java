@@ -18,7 +18,8 @@ public class Main {
             } else if (args[0].equalsIgnoreCase("find")) {
                 BingeFind.bingeFind(args);
             } else if (args[0].equalsIgnoreCase("watch")) {
-                BingeWatch.bingeWatch(args);
+                BingeWatch bw = new BingeWatch(args);
+                bw.bingeWatch();
             } else {
                 System.out.println("Unknown binge command: " + args[0] + "\n" +
                         "For the full command list try \"binge --help\".");
