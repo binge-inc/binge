@@ -1,6 +1,6 @@
 package binge.cli;
 
-import binge.jsonmodel.*;
+import binge.jsonmodel.Series;
 import binge.util.HTMLDownloader;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
@@ -32,15 +32,34 @@ public class BingeWatch {
         String jsonFileEnding = ".json";
         String fullSeriesJsonPath = repoProtocol + "://" + jsonRepo + "/" + seriesJsonRepoDir + "/" + seriesId + jsonFileEnding;
         String jsonSaveDir = System.getProperty("user.home") + "/" + BINGE_DIR + "/" + DEFAULT_SERIES_JSON_DIRECTORY;
-        File file = new File(jsonSaveDir  + "/" + seriesId + jsonFileEnding);
+        File file = new File(jsonSaveDir + "/" + seriesId + jsonFileEnding);
         String seriesJson = loadSeriesJson(file, fullSeriesJsonPath, forceUpdate);
         if (seriesJson == null) return;
         Series series = new Gson().fromJson(seriesJson, Series.class);
         // ToDo
-        String url = watchProtocol + "://" + ip + series.getSeasons()[1].getEpisodes()[0].getVersions()[0].getStreams()[0].getPath();
-        openWebBrowser(url);
+        String url;
+        if (hasMovies(series)) {
+            url = watchProtocol + "://" + ip + series.getSeasons()[1].getEpisodes()[0].getVersions()[0].getStreams()[0].getPath();
+        } else {
+            url = watchProtocol + "://" + ip + series.getSeasons()[0].getEpisodes()[0].getVersions()[0].getStreams()[0].getPath();
+        }
         // ToDo End
-        System.out.println();
+        openWebBrowser(url);
+        System.out.println("ok");
+    }
+
+    /**
+     * Returns whether a series has a movies section or not.
+     *
+     * @param series any series.
+     * @return true if the series has a movies section, else false.
+     */
+    private static boolean hasMovies(final Series series) {
+        String seasonId = series.getSeasons()[0].getSeasonId();
+        return seasonId.equalsIgnoreCase("filme") ||
+                seasonId.equalsIgnoreCase("alle filme") ||
+                seasonId.equalsIgnoreCase("movies") ||
+                seasonId.equalsIgnoreCase("all movies");
     }
 
     /**
