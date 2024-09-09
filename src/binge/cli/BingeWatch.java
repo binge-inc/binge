@@ -5,8 +5,11 @@ import binge.util.HTMLDownloader;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import static binge.Config.BINGE_DIR;
 import static binge.Config.DEFAULT_SERIES_JSON_DIRECTORY;
@@ -34,7 +37,8 @@ public class BingeWatch {
         if (seriesJson == null) return;
         Series series = new Gson().fromJson(seriesJson, Series.class);
         // ToDo
-        
+        String url = watchProtocol + "://" + ip + series.getSeasons()[1].getEpisodes()[0].getVersions()[0].getStreams()[0].getPath();
+        openWebBrowser(url);
         // ToDo End
         System.out.println();
     }
@@ -74,6 +78,33 @@ public class BingeWatch {
             }
         }
         return seriesJson;
+    }
+
+    /**
+     * Opens the default web browser with the specified URL.
+     *
+     * @param url any URL as a String.
+     */
+    private static void openWebBrowser(final String url) {
+        if (!Desktop.isDesktopSupported() || !Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            System.err.println("BingeWatch.openWebBrowser(String): Opening the web browser from within a Java application seems to be not supported on your operating system.");
+            return;
+        }
+        try {
+            Desktop.getDesktop().browse(new URI(url));
+        } catch (final URISyntaxException e) {
+            System.err.println("BingeWatch.openWebBrowser(String): Malformed URI.");
+        } catch (final NullPointerException e) {
+            System.err.println("BingeWatch.openWebBrowser(String): uri may not be null.");
+        } catch (final UnsupportedOperationException e) {
+            System.err.println("BingeWatch.openWebBrowser(String): Unsupported operation.");
+        } catch (final IllegalArgumentException e) {
+            System.err.println("BingeWatch.openWebBrowser(String): URL could not be converted to URI.");
+        } catch (final SecurityException e) {
+            System.err.println("BingeWatch.openWebBrowser(String): Security exception.");
+        } catch (final IOException e) {
+            System.err.println("BingeWatch.openWebBrowser(String): IO exception.");
+        }
     }
 
     private static void printUsage() {
