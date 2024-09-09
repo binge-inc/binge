@@ -48,6 +48,7 @@ public class BingeBrowse {
     public void bingeBrowse() {
         if (onlyHelp) return;
         // ToDo
+        System.out.println("ok");
     }
 
     private void printUsage() {

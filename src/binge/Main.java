@@ -16,7 +16,10 @@ public class Main {
             } else if (args[0].equalsIgnoreCase("browse")) {
                 BingeBrowse bb = new BingeBrowse(args);
                 bb.bingeBrowse();
-            }  else if (args[0].equalsIgnoreCase("download")) {
+            } else if (args[0].equalsIgnoreCase("config")) {
+                BingeConfig bc = new BingeConfig(args);
+                bc.bingeConfig();
+            } else if (args[0].equalsIgnoreCase("download")) {
                 BingeDownload bd = new BingeDownload(args);
                 bd.bingeDownload();
             } else if (args[0].equalsIgnoreCase("find")) {
