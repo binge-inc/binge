@@ -14,11 +14,12 @@ public class BingeBrowse {
     private String seriesId;
     private boolean forceUpdate;
     private String jsonFileEnding;
+    private String fullIndexJsonPath;
     private String fullSeriesJsonPath;
 
     public BingeBrowse(final String[] args) {
         onlyHelp = false;
-        if (args.length >= 2 && StringFunctions.arrayContainsIgnoreCase(CLI.HELP_CODES, args[1])) {
+        if (args.length >= 2 && StringFunctions.arrayContainsIgnoreCaseAny(CLI.HELP_CODES, args)) {
             printUsage();
             onlyHelp = true;
             return;
@@ -32,9 +33,15 @@ public class BingeBrowse {
         watchProtocol = "http";
         String jsonRepo = "raw.githubusercontent.com/binge-inc/sto-series-to-json/master";
         String indexJsonRepoDir = "list-json";
+        String indexFileName = "series";
         String seriesJsonRepoDir = "json";
         jsonFileEnding = ".json";
-        fullSeriesJsonPath = repoProtocol + "://" + jsonRepo + "/" + seriesJsonRepoDir + "/" + seriesId + jsonFileEnding;
+        fullIndexJsonPath = repoProtocol + "://" + jsonRepo + "/" + indexJsonRepoDir + "/" + indexFileName + jsonFileEnding;
+        if (seriesId != null) {
+            fullSeriesJsonPath = repoProtocol + "://" + jsonRepo + "/" + seriesJsonRepoDir + "/" + seriesId + jsonFileEnding;
+        } else {
+            fullSeriesJsonPath = null;
+        }
         jsonSaveDir = System.getProperty("user.home") + "/" + BINGE_DIR + "/" + DEFAULT_SERIES_JSON_DIRECTORY;
     }
 
@@ -44,7 +51,8 @@ public class BingeBrowse {
     }
 
     private void printUsage() {
-        System.out.println("Usage help for binge browse:");
+        System.out.println("Usage help for binge browse:\n" +
+                "ToDo");
         // ToDo
     }
 }
