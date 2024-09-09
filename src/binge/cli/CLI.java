@@ -2,56 +2,93 @@ package binge.cli;
 
 import binge.Config;
 import binge.util.IPHelper;
+import binge.util.StringFunctions;
 
 public class CLI {
     public static final String[] VERSION_CODES = {"--version", "-v", "/v"};
     public static final String[] HELP_CODES = {"--help", "-h", "/h"};
 
     /**
-     * Returns whether parsing progress should be shown on the command line.
-     * The argument should be passed as "show-progress=true" or "show-progress=false".
-     * If show-progress is passed but with an invalid value this function will return false.
-     * If show-progress is not passed the function will return the value of Config.DEFAULT_SHOW_PROGRESS.
+     * Returns whether progress should be shown on the command line.
+     * The argument should be passed as "--show-progress=true" or "--show-progress=false".
+     * If --show-progress is passed but with an invalid value this function will return false.
+     * If --show-progress is not passed the function will return the value of Config.DEFAULT_SHOW_PROGRESS.
      *
      * @param args the String array that contains all program arguments.
-     * @return whether parsing progress should be shown on the command line or not.
+     * @return whether progress should be shown on the command line or not.
      */
     public static boolean getShowProgress(final String[] args) {
-        String pattern = "show-progress=";
+        String pattern = "--show-progress=";
         if (hasStringThatStartsWith(args, pattern)) {
             int i = getArgumentThatStartsWith(args, pattern);
-            return parseFlexBoolean(args[i].substring(args[i].indexOf(pattern) + pattern.length()));
+            if (i == -1) {
+                System.err.println("CLI.getShowProgress(String[]): Argument not found");
+            } else {
+                return parseFlexBoolean(args[i].substring(args[i].indexOf(pattern) + pattern.length()));
+            }
         }
         return Config.DEFAULT_SHOW_PROGRESS;
     }
 
     /**
+     * Returns whether existing files on the hard drive should be ignored and overridden.
+     * The argument should be passed as "--force-update".
+     * If --force-update is not passed the function will return the value of Config.DEFAULT_FORCE_UPDATE.
+     *
+     * @param args the String array that contains all program arguments.
+     * @return whether existing files on the hard drive should be ignored and overridden or not.
+     */
+    public static boolean getForceUpdate(final String[] args) {
+        String pattern = "--force-update";
+        if (StringFunctions.arrayContainsIgnoreCase(args, pattern)) {
+            return true;
+        }
+        return Config.DEFAULT_FORCE_UPDATE;
+    }
+
+    /**
      * Returns the IPv4 address to use as the server to crawl.
-     * This is either an argument "ip=123.123.123.123" or, if not specified or invalid, the value of Config.DEFAULT_IP
+     * This is either an argument "--ip=123.123.123.123" or, if not specified or invalid, the value of Config.DEFAULT_IP
      *
      * @param args the String array that contains all program arguments.
      * @return An IPv4 address.
      */
     public static String getIP(final String[] args) {
-        String pattern = "ip=";
+        String pattern = "--ip=";
         if (hasStringThatStartsWith(args, pattern)) {
             int i = getArgumentThatStartsWith(args, pattern);
-            if (IPHelper.checkValidIP(args[i])) {
-                return args[i];
+            if (i == -1) {
+                System.err.println("CLI.getIP(String[]): Argument not found");
             } else {
-                System.err.println("IPv4 address \"" + args[i] + "\" is invalid. Using fallback (\"" + Config.DEFAULT_IP + "\").");
+                if (IPHelper.checkValidIP(args[i])) {
+                    return args[i];
+                } else {
+                    System.err.println("IPv4 address \"" + args[i] + "\" is invalid. Using fallback (\"" + Config.DEFAULT_IP + "\").");
+                }
             }
         }
         return Config.DEFAULT_IP;
     }
 
+    /**
+     * Returns the location to save series to.
+     * The argument should be passed as "--output=path/to/directory" without a trailing slash.
+     * If --output is not passed the function will return the value of Config.DEFAULT_SERIES_JSON_DIRECTORY.
+     *
+     * @param args the String array that contains all program arguments.
+     * @return the location to save series to.
+     */
     public static String getSeriesOutputDirectory(final String[] args) {
-        String pattern = "output=";
+        String pattern = "--output=";
         if (hasStringThatStartsWith(args, pattern)) {
             int i = getArgumentThatStartsWith(args, pattern);
-            return args[i].substring(args[i].indexOf(pattern) + pattern.length());
+            if (i == -1) {
+                System.err.println("CLI.getSeriesOutputDirectory(String[]): Argument not found");
+            } else {
+                return args[i].substring(args[i].indexOf(pattern) + pattern.length());
+            }
         }
-        return Config.DEFAULT_OUTPUT_DIRECTORY;
+        return Config.DEFAULT_SERIES_JSON_DIRECTORY;
     }
 
     /**
