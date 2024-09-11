@@ -5,7 +5,7 @@ import binge.util.IPHelper;
 import binge.util.StringFunctions;
 
 public class CLI {
-    public static final String[] VERSION_CODES = {"--version", "-v", "/v"};
+    public static final String[] VERSION_CODES = {"--version", "-v", "/v", "v", "version"};
     public static final String[] HELP_CODES = {"--help", "-h", "/h"};
 
     /**
