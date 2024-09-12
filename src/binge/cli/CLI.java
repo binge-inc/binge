@@ -47,7 +47,7 @@ public class CLI {
     }
 
     /**
-     * Returns the IPv4 address to use as the server to crawl.
+     * Returns the IPv4 address to use as the watch server.
      * This is either an argument "--ip=123.123.123.123" or, if not specified or invalid, the value of Config.DEFAULT_IP
      *
      * @param args the String array that contains all program arguments.

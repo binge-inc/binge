@@ -55,9 +55,9 @@ public class BingeWatch {
         SeriesFunctions.listAllEpisodeLinks(series, watchProtocol, ip);
         String url;
         if (SeriesFunctions.hasMovies(series)) {
-            url = watchProtocol + "://" + ip + series.getSeasons()[1].getEpisodes()[0].getVersions()[0].getStreams()[0].getPath();
+            url = watchProtocol + "://" + ip + "/redirect/" + series.getSeasons()[1].getEpisodes()[0].getVersions()[0].getStreams()[0].getRedirect();
         } else {
-            url = watchProtocol + "://" + ip + series.getSeasons()[0].getEpisodes()[0].getVersions()[0].getStreams()[0].getPath();
+            url = watchProtocol + "://" + ip + "/redirect/" + series.getSeasons()[0].getEpisodes()[0].getVersions()[0].getStreams()[0].getRedirect();
         }
         // ToDo End
         openWebBrowser(url);

@@ -20,9 +20,9 @@ public class SeriesFunctions {
                 }
                 // ToDo: Implement version and hoster prioritization
                 if (isMovieSeason(season)) {
-                    System.out.println(sanitizeSeasonId(season.getSeasonId()) + " " + (j + 1) + ": " + showTitle + ": " + watchProtocol + "://" + ip + episode.getVersions()[0].getStreams()[0].getPath());
+                    System.out.println(sanitizeSeasonId(season.getSeasonId()) + " " + (j + 1) + ": " + showTitle + ": " + watchProtocol + "://" + ip + "/redirect/" + episode.getVersions()[0].getStreams()[0].getRedirect());
                 } else {
-                    System.out.println(season.getSeasonId() + " Folge " + (j + 1) + ": " + showTitle + ": " + watchProtocol + "://" + ip + episode.getVersions()[0].getStreams()[0].getPath());
+                    System.out.println(sanitizeSeasonId(season.getSeasonId()) + " Folge " + (j + 1) + ": " + showTitle + ": " + watchProtocol + "://" + ip + "/redirect/" + episode.getVersions()[0].getStreams()[0].getRedirect());
                 }
             }
         }
@@ -33,6 +33,10 @@ public class SeriesFunctions {
             return "Film";
         } else if (seasonId.equalsIgnoreCase("all movies") || seasonId.equalsIgnoreCase("movies")) {
             return "Movie";
+        }
+        String germanSeasonId = "staffel-";
+        if (seasonId.startsWith(germanSeasonId)) {
+            return seasonId.replace(germanSeasonId, "Staffel ");
         }
         return seasonId;
     }
